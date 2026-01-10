@@ -5,6 +5,12 @@
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
+* text=auto
+*.js text
+*.json text
+*.css text
+*.php text
+
 
 /.github export-ignore
 CHANGELOG.md export-ignore
