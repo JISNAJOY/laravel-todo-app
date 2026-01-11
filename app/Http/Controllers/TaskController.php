@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\StoreTaskRequest;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -11,7 +12,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch all tasks for the logged-in user
+        $tasks = auth()->user()->tasks()->latest()->get();
+
+        // Pass tasks to the view
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -25,9 +30,16 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        //
+        Task::create([
+            'user_id' => auth()->id(),
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('tasks.index');
+
     }
 
     /**
@@ -41,9 +53,14 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+  
+    public function edit(Task $task)
     {
-        //
+        // Check if the logged-in user owns this task
+        abort_if($task->user_id !== auth()->id(), 403);
+
+        // If check passes, show the edit form
+        return view('tasks.edit', compact('task'));
     }
 
     /**
