@@ -24,7 +24,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class TaskController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('tasks.index');
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully');
 
     }
 
@@ -66,16 +66,30 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreTaskRequest $request, Task $task)
     {
-        //
+         if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $task->update($request->validated());
+
+        return redirect()->route('tasks.index')
+                         ->with('success', 'Task updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $task->delete();
+
+        return redirect()->route('tasks.index')
+                         ->with('success', 'Task deleted successfully');
     }
 }
