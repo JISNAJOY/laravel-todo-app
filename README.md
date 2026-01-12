@@ -1,6 +1,6 @@
-# Laravel Task Manager 📝
+# Laravel Todo application 📝
 
-A simple Laravel Task Manager application built to learn and demonstrate core Laravel concepts such as routing, controllers, authentication, validation, and Blade components.
+A simple Laravel Todo application built to learn and demonstrate core Laravel concepts such as routing, controllers, authentication, validation, and Blade components.
 
 ---
 
@@ -51,8 +51,8 @@ resources/
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/your-username/task-manager.git
-cd task-manager
+git clone https://github.com/your-username/laravel-todo-app.git
+cd laravel-todo-app
 ```
 2️⃣ Install dependencies
 composer install
