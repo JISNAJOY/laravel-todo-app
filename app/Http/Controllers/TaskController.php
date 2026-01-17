@@ -13,10 +13,11 @@ class TaskController extends Controller
     public function index()
     {
         // Fetch all tasks for the logged-in user
-        $tasks = auth()->user()->tasks()->latest()->get();
+        $tasks = auth()->user()->tasks()->latest()->paginate(5);
 
         // Pass tasks to the view
         return view('tasks.index', compact('tasks'));
+
     }
 
     /**
@@ -57,7 +58,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         // Check if the logged-in user owns this task
-        abort_if($task->user_id !== auth()->id(), 403);
+        $this->authorize('update', $task);
 
         // If check passes, show the edit form
         return view('tasks.edit', compact('task'));
@@ -68,9 +69,7 @@ class TaskController extends Controller
      */
     public function update(StoreTaskRequest $request, Task $task)
     {
-         if ($task->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('update', $task);
 
         $task->update($request->validated());
 
@@ -83,13 +82,23 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if ($task->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('delete', $task);
 
         $task->delete();
 
         return redirect()->route('tasks.index')
                          ->with('success', 'Task deleted successfully');
+    }
+
+    # Task’s completion status methos
+    public function toggleComplete(Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $task->update([
+            'is_completed' => !$task->is_completed
+        ]);
+
+        return back();
     }
 }

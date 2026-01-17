@@ -7,7 +7,7 @@
 
     <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-        <!-- Success message -->
+        <!-- Success Message -->
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
                 {{ session('success') }}
@@ -20,12 +20,13 @@
             + Add Task
         </a>
 
-        <!-- Tasks List -->
+        <!-- Task Table -->
         @if($tasks->count())
             <div class="bg-white shadow rounded">
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-100 text-left">
+                            <th class="p-3 border">Completed</th>
                             <th class="p-3 border">Title</th>
                             <th class="p-3 border">Description</th>
                             <th class="p-3 border w-40">Actions</th>
@@ -34,8 +35,26 @@
                     <tbody>
                         @foreach($tasks as $task)
                             <tr>
-                                <td class="p-3 border">{{ $task->title }}</td>
-                                <td class="p-3 border">{{ $task->description }}</td>
+                                <!-- Completion Checkbox -->
+                                <td class="p-3 border">
+                                    <form action="{{ route('tasks.toggle', $task) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="checkbox"
+                                               onchange="this.form.submit()"
+                                               {{ $task->is_completed ? 'checked' : '' }}>
+                                    </form>
+                                </td>
+
+                                <!-- Task Title & Description -->
+                                <td class="p-3 border {{ $task->is_completed ? 'line-through text-gray-400' : '' }}">
+                                    {{ $task->title }}
+                                </td>
+                                <td class="p-3 border {{ $task->is_completed ? 'line-through text-gray-400' : '' }}">
+                                    {{ $task->description }}
+                                </td>
+
+                                <!-- Actions -->
                                 <td class="p-3 border">
                                     <a href="{{ route('tasks.edit', $task) }}"
                                        class="text-blue-600 hover:underline">
@@ -59,8 +78,14 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $tasks->links() }}
+            </div>
+
         @else
-            <p class="text-gray-600">No tasks found. Create one!</p>
+            <p class="text-gray-600 mt-4">No tasks found. <a href="{{ route('tasks.create') }}" class="text-blue-600 underline">Create one now!</a></p>
         @endif
 
     </div>

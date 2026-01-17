@@ -9,30 +9,43 @@
 
         <div class="bg-white shadow rounded p-6">
 
+            <!-- Success Message -->
+            @if(session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <form action="{{ route('tasks.update', $task) }}" method="POST">
                 @csrf
                 @method('PUT')
 
-                <!-- Title -->
+                <!-- Task Title -->
                 <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700">
-                        Title
-                    </label>
+                    <label class="block font-medium text-sm text-gray-700">Title</label>
                     <input type="text"
                            name="title"
                            value="{{ old('title', $task->title) }}"
                            class="w-full mt-1 border-gray-300 rounded"
                            required>
+                    @error('title')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <!-- Description -->
+                <!-- Task Description -->
                 <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700">
-                        Description
-                    </label>
+                    <label class="block font-medium text-sm text-gray-700">Description</label>
                     <textarea name="description"
                               class="w-full mt-1 border-gray-300 rounded"
                               rows="4">{{ old('description', $task->description) }}</textarea>
+                </div>
+
+                <!-- Task Completion Checkbox -->
+                <div class="mb-4 flex items-center gap-2">
+                    <input type="checkbox" name="is_completed" value="1"
+                           {{ $task->is_completed ? 'checked' : '' }}>
+                    <label class="text-gray-700">Mark as Completed</label>
                 </div>
 
                 <!-- Buttons -->
