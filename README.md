@@ -1,55 +1,80 @@
-# Laravel Todo application 📝
+# Laravel Todo Application
 
-A simple Laravel Todo application built to learn and demonstrate core Laravel concepts such as routing, controllers, authentication, validation, and Blade components.
+A simple **Laravel Todo Application** built with **Laravel 11**, featuring:
 
----
-
-## 🚀 Features
-
-- User authentication (Login & Register)
-- Create, read, update, and delete tasks
-- Tasks are user-specific
-- Form request validation
-- Authorization checks
-- Laravel Breeze with Blade components
-- Clean and simple UI using Tailwind CSS
+- **User Authentication** (Laravel Breeze for UI and Sanctum for API)
+- **Task CRUD** (Create, Read, Update, Delete) for authenticated users
+- **Task Completion Toggle**
+- **Pagination**
+- **RESTful API** with token-based authentication
+- **Policy-based authorization** for user task ownership
 
 ---
 
-## 🛠 Tech Stack
+## 📂 Important Files & Structure
 
-- Laravel
-- PHP
-- MySQL
-- Laravel Breeze
-- Blade (Components)
+### Controllers
 
+- **TaskController.php**: Handles Blade UI pages for tasks (web routes)  
+- **Api/AuthController.php**: Handles API authentication (register/login/logout)  
+- **Api/TaskApiController.php**: Handles API CRUD operations for tasks  
+
+### Models
+
+- **User.php**: Uses `HasApiTokens` trait for API authentication via Sanctum  
+- **Task.php**: Represents tasks; linked to authenticated user  
+
+### Routes
+
+- **routes/web.php**: Routes for UI (Blade views)  
+- **routes/api.php**: Routes for API (JSON responses)  
+  - `/api/register` → Register user  
+  - `/api/login` → Login user  
+  - `/api/logout` → Logout  
+  - `/api/tasks` → CRUD operations on tasks (protected by `auth:sanctum`)  
+
+### Blade Views
+
+- **tasks/index.blade.php**: List all tasks (with pagination & completion checkbox)  
+- **tasks/create.blade.php**: Form to add a new task  
+- **tasks/edit.blade.php**: Form to edit a task  
+- **layouts/app.blade.php**: Base layout for Breeze (uses `$slot`)  
 
 ---
 
-## 📂 Project Structure (Important Files)
-app/
-├── Http/
-│ ├── Controllers/TaskController.php
-│ └── Requests/StoreTaskRequest.php
-├── Models/
-│ ├── Task.php
-│ └── User.php
+## 🔄 Application Flow
 
-resources/
-├── views/
-│ ├── tasks/
-│ │ ├── index.blade.php
-│ │ ├── create.blade.php
-│ │ └── edit.blade.php
-│ └── layouts/app.blade.php
+### Web UI
 
+1. User registers/logs in using **Laravel Breeze forms**  
+2. `TaskController` checks policies to ensure the user can only edit/delete their own tasks  
+3. Tasks are displayed with:
+   - Pagination
+   - Completion checkbox (toggles `is_completed`)  
+4. Users can create, update, delete tasks through Blade views  
+
+### API (JSON)
+
+1. **Register/Login**
+   - `POST /api/register` → Returns user info + token  
+   - `POST /api/login` → Returns token  
+2. **Protected Routes**
+   - Must send **Bearer token** in `Authorization` header  
+   - `GET /api/tasks` → List tasks  
+   - `POST /api/tasks` → Create task  
+   - `PUT/PATCH /api/tasks/{id}` → Update task  
+   - `DELETE /api/tasks/{id}` → Delete task  
+3. **Logout**
+   - `POST /api/logout` → Deletes current API token  
+
+**Token Authentication** is handled via **Laravel Sanctum** (`auth:sanctum` middleware).
 
 ---
 
-## ⚙️ Installation & Setup
+## 🛠 Setup Instructions
 
-### 1️⃣ Clone the repository
+1. Clone the repository:
+
 ```bash
 git clone https://github.com/your-username/laravel-todo-app.git
 cd laravel-todo-app
@@ -77,5 +102,9 @@ php artisan serve
 
 open
 http://127.0.0.1:8000
+
+5️⃣For API testing:
+Use Postman
+Register → Login → Get Bearer token → Access tasks API
 
 
