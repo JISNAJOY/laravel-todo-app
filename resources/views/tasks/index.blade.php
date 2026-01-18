@@ -40,9 +40,7 @@
                                     <form action="{{ route('tasks.toggle', $task) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <input type="checkbox"
-                                               onchange="this.form.submit()"
-                                               {{ $task->is_completed ? 'checked' : '' }}>
+                                        <input type="checkbox" onchange="this.form.submit()" {{ $task->is_completed ? 'checked' : '' }}>
                                     </form>
                                 </td>
 
