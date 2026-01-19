@@ -60,10 +60,10 @@ A simple **Laravel Todo Application** built with **Laravel 11**, featuring:
    - `POST /api/login` → Returns token  
 2. **Protected Routes**
    - Must send **Bearer token** in `Authorization` header  
-   - `GET /api/tasks` → List tasks  
-   - `POST /api/tasks` → Create task  
-   - `PUT/PATCH /api/tasks/{id}` → Update task  
-   - `DELETE /api/tasks/{id}` → Delete task  
+   - `GET /api/v1/tasks` → List tasks  
+   - `POST /api/v1/tasks` → Create task  
+   - `PUT/PATCH /api/v1/tasks/{id}` → Update task  
+   - `DELETE /api/v1/tasks/{id}` → Delete task  
 3. **Logout**
    - `POST /api/logout` → Deletes current API token  
 
