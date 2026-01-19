@@ -8,5 +8,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::apiResource('tasks', TaskApiController::class);
+    Route::prefix('v1')
+        ->as('api.v1.') 
+        ->group(function () {
+            Route::apiResource('tasks', TaskApiController::class);
+        });
+
 });
