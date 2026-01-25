@@ -71,6 +71,10 @@ A simple **Laravel Todo Application** built with **Laravel 11**, featuring:
 
 ---
 
+## Screenshots
+![Task list](screenshots/task-list.png)
+![create page](screenshots/create.png)
+
 ## 🛠 Setup Instructions
 
 1. Clone the repository:
