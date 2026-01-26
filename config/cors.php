@@ -23,7 +23,7 @@ return [
     'allowed_origins' => [
         'http://localhost:5173',               // React (Vite) local
         'http://localhost:3000',               // React (CRA) local
-        'https://react-todo-frontend.vercel.app',    // Production frontend
+        'https://react-todo-frontend-sandy.vercel.app',    // Production frontend
     ],
 
     'allowed_origins_patterns' => [],
