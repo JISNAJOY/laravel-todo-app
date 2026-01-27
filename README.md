@@ -71,11 +71,38 @@ A simple **Laravel Todo Application** built with **Laravel 11**, featuring:
 
 ---
 
+## ☁️ Cloud Deployment
+
+This backend application is deployed to the cloud and exposed as a REST API.
+
+### Deployment Details
+- **Hosting Platform:** Render
+- **Environment:** Production
+- **Database:** Managed MySQL (cloud)
+- **Authentication:** Laravel Sanctum (token-based)
+- **HTTPS:** Enabled by default
+
+### Live API Base URL
+
+https://laravel-todo-app-xkg0.onrender.com/api
+
+### Production Configuration
+- Environment variables are configured securely in the hosting platform (not committed to Git)
+- CORS is configured to allow requests from the deployed React frontend
+- API routes are protected using `auth:sanctum` middleware
+
+### Usage
+This backend serves:
+- Blade-based web UI (for local usage)
+- REST API consumed by a separate React frontend application
+
 ## Screenshots
 ![Task list](screenshots/task-list.png)
 ![create page](screenshots/create.png)
 
-## 🛠 Setup Instructions
+## 🛠 Local Development Setup
+
+Follow these steps to run the application locally for development or testing.
 
 1. Clone the repository:
 
